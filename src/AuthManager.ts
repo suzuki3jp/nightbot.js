@@ -10,6 +10,7 @@ export class AuthManager extends Base {
     public _accessToken: string;
     public _refreshToken: string;
     public _scopes: Scopes[] | null;
+    public onRefresh: ((info: TokenInfo) => {}) | null;
 
     constructor(authManagerOpt: { clientInfo: ClientInfo; tokenInfo: TokenInfo }) {
         super();
@@ -19,6 +20,7 @@ export class AuthManager extends Base {
         this._accessToken = authManagerOpt.tokenInfo.accessToken;
         this._refreshToken = authManagerOpt.tokenInfo.refreshToken;
         this._scopes = authManagerOpt.tokenInfo.scopes ?? null;
+        this.onRefresh = authManagerOpt.tokenInfo.onRefresh ?? null;
     }
 
     async isExpired(): Promise<boolean> {
@@ -53,6 +55,13 @@ export class AuthManager extends Base {
         this._refreshToken = data.refresh_token;
         // @ts-ignore
         this._scopes = data.scope.split(' ');
+        if (!this.onRefresh) return;
+        this.onRefresh({
+            accessToken: this._accessToken,
+            refreshToken: this._refreshToken,
+            scopes: this._scopes ?? undefined,
+            onRefresh: this.onRefresh,
+        });
     }
 
     _convertToken(type: 'Bearer' | null, token: string): string {
@@ -77,4 +86,5 @@ export interface TokenInfo {
     accessToken: string;
     refreshToken: string;
     scopes?: Scopes[];
+    onRefresh?: (info: TokenInfo) => {};
 }
