@@ -1,7 +1,7 @@
 import { Base } from './Base';
 import { APIError } from './Error';
 import { APIEndPoints, RefreshTokenResponse, Scopes } from './api-types/index';
-import { getErrorMessageFromAPIRes } from './utils/error';
+import { getErrorMessageFromAPIRes } from './utils/index';
 
 export class AuthManager extends Base {
     public _clientId: string;
