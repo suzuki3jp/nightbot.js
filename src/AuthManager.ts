@@ -28,7 +28,7 @@ export class AuthManager extends Base {
             url: APIEndPoints.getMe.endPoint,
             config: {
                 headers: {
-                    authorization: this._convertToken('Bearer', this._accessToken),
+                    authorization: this._generateBearerToken(),
                 },
             },
         });
@@ -49,7 +49,6 @@ export class AuthManager extends Base {
             }),
         });
         if (res.status !== 200) throw new APIError(getErrorMessageFromAPIRes(res));
-        console.log(res.data.refresh_token);
         const data: RefreshTokenResponse = res.data;
         this._accessToken = data.access_token;
         this._refreshToken = data.refresh_token;
@@ -62,6 +61,10 @@ export class AuthManager extends Base {
             scopes: this._scopes ?? undefined,
             onRefresh: this.onRefresh,
         });
+    }
+
+    _generateBearerToken() {
+        return this._convertToken('Bearer', this._accessToken);
     }
 
     _convertToken(type: 'Bearer' | null, token: string): string {
