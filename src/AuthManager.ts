@@ -1,6 +1,6 @@
 import { Base } from './Base';
 import { APIError } from './Error';
-import { APIEndPoints, RefreshTokenResponse, Scopes } from './api-types/index';
+import { APIEndPoints, GetMeResponse, RefreshTokenResponse, Scopes } from './api-types/index';
 import { getErrorMessageFromAPIRes } from './utils/index';
 import { AxiosRequestConfig } from 'axios';
 
@@ -29,8 +29,10 @@ export class AuthManager extends Base {
             url: APIEndPoints.getMe.endPoint,
             config: this.generateReqConfig(),
         });
-        if (res.status === 200) return false;
-        return true;
+        if (res.status !== 200) return true;
+        const data: GetMeResponse = res.data;
+        this._scopes = data.authorization.scopes;
+        return false;
     }
 
     async refresh(options?: { force?: boolean }) {
