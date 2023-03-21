@@ -2,6 +2,7 @@ import { Base } from './Base';
 import { APIError } from './Error';
 import { APIEndPoints, RefreshTokenResponse, Scopes } from './api-types/index';
 import { getErrorMessageFromAPIRes } from './utils/index';
+import { AxiosRequestConfig } from 'axios';
 
 export class AuthManager extends Base {
     public _clientId: string;
@@ -26,11 +27,7 @@ export class AuthManager extends Base {
     async isExpired(): Promise<boolean> {
         const res = await this.req.get({
             url: APIEndPoints.getMe.endPoint,
-            config: {
-                headers: {
-                    authorization: this._generateBearerToken(),
-                },
-            },
+            config: this.generateReqConfig(),
         });
         if (res.status === 200) return false;
         return true;
@@ -61,6 +58,10 @@ export class AuthManager extends Base {
             scopes: this._scopes ?? undefined,
             onRefresh: this.onRefresh,
         });
+    }
+
+    generateReqConfig(): AxiosRequestConfig {
+        return { headers: { authorization: this._generateBearerToken() } };
     }
 
     _generateBearerToken() {
