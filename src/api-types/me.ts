@@ -1,9 +1,9 @@
-import { Scopes } from './index';
+import { Scopes, UserLevel } from './index';
 
 export interface GetMeResponse {
     status: 200;
     authorization: {
-        userLevel: string;
+        userLevel: UserLevel;
         authType: string;
         credentials: {
             expires: string;
