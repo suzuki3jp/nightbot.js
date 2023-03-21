@@ -35,8 +35,12 @@ export class AuthManager extends Base {
         return false;
     }
 
-    async refresh(options?: { force?: boolean }) {
-        if (!options?.force && !(await this.isExpired())) return;
+    /**
+     * Refreshing Token.
+     * @param force - Force refresh or not, default false.
+     */
+    async refresh(force?: boolean) {
+        if (!force && !(await this.isExpired())) return;
         const res = await this.req.post({
             url: APIEndPoints.refreshToken.endPoint,
             body: new URLSearchParams({
