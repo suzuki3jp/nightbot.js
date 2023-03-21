@@ -6,7 +6,7 @@ export interface GetCommandsResponse {
     commands: CustomCommandData[];
 }
 
-export interface GetCommandByIdResponse {
+export interface CustomCommandResponse {
     status: number;
     command: CustomCommandData;
 }

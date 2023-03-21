@@ -3,6 +3,9 @@ export const APIEndPoints: {
     refreshToken: EndPointData;
     getCommands: EndPointData;
     getCommandById: EndPointData;
+    addCommand: EndPointData;
+    editCommand: EndPointData;
+    deleteCommand: EndPointData;
     getDefaultCommands: EndPointData;
     getDefaultCommandByName: EndPointData;
 } = {
@@ -26,6 +29,21 @@ export const APIEndPoints: {
         endPoint: '/1/commands/:id',
         requiredScopes: ['commands'],
     },
+    addCommand: {
+        method: 'POST',
+        endPoint: '/1/commands',
+        requiredScopes: ['commands'],
+    },
+    editCommand: {
+        method: 'PUT',
+        endPoint: '/1/commands/:id',
+        requiredScopes: ['commands'],
+    },
+    deleteCommand: {
+        method: 'DELETE',
+        endPoint: '/1/commands/:id',
+        requiredScopes: ['commands'],
+    },
     getDefaultCommands: {
         method: 'GET',
         endPoint: '/1/commands/default',
@@ -39,7 +57,7 @@ export const APIEndPoints: {
 };
 
 interface EndPointData {
-    method: 'GET' | 'POST';
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE';
     endPoint: string;
     requiredScopes: Scopes[] | null;
 }
@@ -49,7 +67,14 @@ export interface ErrorResponse {
     message: string;
 }
 
-export { GetCommandsResponse, CustomCommandData } from './commands';
+export {
+    GetCommandsResponse,
+    CustomCommandData,
+    CustomCommandResponse,
+    GetDefaultCommandsResponse,
+    GetDefaultCommandByNameResponse,
+    DefaultCommandData,
+} from './commands';
 
 export { GetMeResponse } from './me';
 
