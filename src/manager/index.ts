@@ -1,1 +1,1 @@
-export { CommandsManager } from './Commands';
+export { CommandsManager, EditCustomCommandOptions, EditDefaultCommandPotions } from './Commands';
