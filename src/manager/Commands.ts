@@ -8,7 +8,7 @@ import {
     CustomCommandResponse,
     Scopes,
     UserLevel,
-    GetDefaultCommandByNameResponse,
+    DefaultCommandResponse,
     GetDefaultCommandsResponse,
 } from '../api-types/index';
 import { APIError } from '../Error';
@@ -153,7 +153,7 @@ export class CommandsManager extends Base {
      *
      * {@link https://api-docs.nightbot.tv/#get-default-command-by-name API Docs}
      */
-    async getDefaultCommandByName(name: string): Promise<GetDefaultCommandByNameResponse | null> {
+    async getDefaultCommandByName(name: string): Promise<DefaultCommandResponse | null> {
         await this._auth.refresh();
         this.isScopesEnough(APIEndPoints.getDefaultCommandByName.requiredScopes);
         const res = await this.req.get({
@@ -162,6 +162,31 @@ export class CommandsManager extends Base {
         });
         if (res.status === 404) return null;
         if (res.status === 200) return res.data;
+        throw new APIError(getErrorMessageFromAPIRes(res));
+    }
+
+    /**
+     * Edits a default command by its name.
+     * @param name - Name of the command to looks up. It's a unique name without prefix.
+     * @param options
+     * @returns - Returns null if the command for the name does not exist.
+     *
+     * {@link https://api-docs.nightbot.tv/#edit-default-command-by-name API Docs}
+     */
+    async editDefaultCommand(name: string, options: EditDefaultCommandPotions): Promise<DefaultCommandResponse | null> {
+        await this._auth.refresh();
+        this.isScopesEnough(APIEndPoints.editDefaultCommand.requiredScopes);
+        const res = await this.req.put({
+            url: `/1/commands/default/${name}`,
+            body: {
+                coolDown: options.coolDown,
+                enabled: options.enabled,
+                userLevel: options.userLevel,
+            },
+            config: this._auth.generateReqConfig(),
+        });
+        if (res.status === 200) return res.data;
+        if (res.status === 404) return null;
         throw new APIError(getErrorMessageFromAPIRes(res));
     }
 
@@ -196,5 +221,11 @@ export interface EditCustomCommandOptions {
     /**
      * The userlevel required to use the command.
      */
+    userLevel?: UserLevel;
+}
+
+export interface EditDefaultCommandPotions {
+    coolDown?: number;
+    enabled?: boolean;
     userLevel?: UserLevel;
 }

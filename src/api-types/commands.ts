@@ -17,7 +17,7 @@ export interface GetDefaultCommandsResponse {
     commands: DefaultCommandData[];
 }
 
-export interface GetDefaultCommandByNameResponse {
+export interface DefaultCommandResponse {
     status: number;
     command: DefaultCommandData;
 }

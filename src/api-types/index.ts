@@ -8,6 +8,7 @@ export const APIEndPoints: {
     deleteCommand: EndPointData;
     getDefaultCommands: EndPointData;
     getDefaultCommandByName: EndPointData;
+    editDefaultCommand: EndPointData;
 } = {
     getMe: {
         method: 'GET',
@@ -54,6 +55,11 @@ export const APIEndPoints: {
         endPoint: '/1/commands/default/:name',
         requiredScopes: ['commands_default'],
     },
+    editDefaultCommand: {
+        method: 'PUT',
+        endPoint: '/1/commands/default/:name',
+        requiredScopes: ['commands_default'],
+    },
 };
 
 interface EndPointData {
@@ -72,7 +78,7 @@ export {
     CustomCommandData,
     CustomCommandResponse,
     GetDefaultCommandsResponse,
-    GetDefaultCommandByNameResponse,
+    DefaultCommandResponse,
     DefaultCommandData,
 } from './commands';
 
