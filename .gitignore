@@ -9,3 +9,6 @@ temp/
 
 # workspace
 nightbot.js.code-workspace
+
+# mac
+.DS_Store

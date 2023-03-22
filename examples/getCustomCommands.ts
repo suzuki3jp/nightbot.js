@@ -1,15 +1,4 @@
-# nightbot.js
-**A useful [NightBot API](https://api-docs.nightbot.tv/) wrapper.**  
-**This project is currently in the development phase.**
-
-## Installation
-```shell
-npm install nightbot.js
-```
-
-## Usage
-```ts
-import { AuthManager, Client } from 'nightbot.js';
+import { AuthManager, Client } from '../src/index';
 
 (async () => {
     const auth = new AuthManager({
@@ -27,11 +16,3 @@ import { AuthManager, Client } from 'nightbot.js';
 
     const customCommands = await client.command.getCustomCommandsByMe();
 })();
-```
-- Other examples are hereOther examples are [here](https://github.com/suzuki3jp/nightbot.js/tree/master/examples)
-
-## Help
-- [Support Server](https://suzuki-dev.com/support)
-
-## LICENCE
-[MIT](./LICENSE)
