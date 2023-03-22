@@ -13,6 +13,9 @@ import {
 } from '../api-types/index';
 import { APIError } from '../Error';
 
+/**
+ * Class for managing commands.
+ */
 export class CommandsManager extends Base {
     _auth: AuthManager;
 
@@ -118,6 +121,8 @@ export class CommandsManager extends Base {
     /**
      * Deletes a custom command by id.
      * @param id
+     *
+     * {@link https://api-docs.nightbot.tv/#delete-custom-command-by-id API Docs}
      */
     async deleteCustomCommand(id: string) {
         await this._auth.refresh();
@@ -225,7 +230,18 @@ export interface EditCustomCommandOptions {
 }
 
 export interface EditDefaultCommandPotions {
+    /**
+     * The minimum amount of seconds between command usage (prevents spam).
+     */
     coolDown?: number;
+
+    /**
+     * The status of the default command. If `true`, command is enabled. If `false`, the command is disabled and is nonfunctional.
+     */
     enabled?: boolean;
+
+    /**
+     * The [userlevel](https://api-docs.nightbot.tv/#userlevels) required to use the command.
+     */
     userLevel?: UserLevel;
 }

@@ -4,6 +4,9 @@ import { APIEndPoints, GetMeResponse, RefreshTokenResponse, Scopes } from './api
 import { getErrorMessageFromAPIRes } from './utils/index';
 import { AxiosRequestConfig } from 'axios';
 
+/**
+ * Class for authentication.
+ */
 export class AuthManager extends Base {
     public _clientId: string;
     public _clientSecret: string;
@@ -86,15 +89,43 @@ export class AuthManager extends Base {
     }
 }
 
+/**
+ * {@link https://api-docs.nightbot.tv/#authorization-code-flow API Docs}
+ */
 export interface ClientInfo {
+    /**
+     * The client ID of the app.
+     */
     clientId: string;
+
+    /**
+     * The client secret of the app.
+     */
     clientSecret: string;
+
+    /**
+     * One of the redirect URIs listed for the app.
+     */
     redirectUri: string;
 }
 
+/**
+ * {@link https://api-docs.nightbot.tv/#authorization-code-flow API Docs}
+ */
 export interface TokenInfo {
+    /**
+     * The token that can be sent to the Nightbot API.
+     */
     accessToken: string;
+
+    /**
+     * A token that may be used to obtain a new access token.
+     */
     refreshToken: string;
+
+    /**
+     * This should be identical to scopes requested during authorization.
+     */
     scopes?: Scopes[];
     onRefresh?: (info: TokenInfo) => {};
 }
