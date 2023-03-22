@@ -1,7 +1,7 @@
 {
   "name": "nightbot.js",
   "version": "0.1.0",
-  "description": "",
+  "description": "A useful NightBot API wrapper.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
