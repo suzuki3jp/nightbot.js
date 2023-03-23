@@ -226,7 +226,7 @@ export interface EditCustomCommandOptions {
     /**
      * The userlevel required to use the command.
      */
-    userLevel?: UserLevel;
+    userLevel?: Exclude<UserLevel, 'admin'>;
 }
 
 export interface EditDefaultCommandPotions {
@@ -243,5 +243,5 @@ export interface EditDefaultCommandPotions {
     /**
      * The [userlevel](https://api-docs.nightbot.tv/#userlevels) required to use the command.
      */
-    userLevel?: UserLevel;
+    userLevel?: Exclude<UserLevel, 'admin'>;
 }

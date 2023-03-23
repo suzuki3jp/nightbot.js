@@ -11,7 +11,7 @@ export declare class AuthManager extends Base {
     _accessToken: string;
     _refreshToken: string;
     _scopes: Scopes[] | null;
-    onRefresh: ((info: TokenInfo) => {}) | null;
+    onRefresh: ((info: TokenInfo) => void) | null;
     constructor(authManagerOpt: {
         clientInfo: ClientInfo;
         tokenInfo: TokenInfo;
@@ -59,5 +59,5 @@ export interface TokenInfo {
      * This should be identical to scopes requested during authorization.
      */
     scopes?: Scopes[];
-    onRefresh?: (info: TokenInfo) => {};
+    onRefresh?: (info: TokenInfo) => void;
 }
