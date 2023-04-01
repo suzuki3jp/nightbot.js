@@ -1,6 +1,6 @@
 import { AuthManager } from '../AuthManager';
 import { Base } from '../Base';
-import { getErrorMessageFromAPIRes, isIncludeRequiedScopes } from '../utils/index';
+import { getErrorMessageFromAPIRes, checkForEnoughScopes } from '../utils/index';
 import {
     APIEndPoints,
     GetCommandsResponse,
@@ -31,7 +31,7 @@ export class CommandsManager extends Base {
      */
     async getCustomCommandsByMe(): Promise<CustomCommandData[]> {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.getCommands.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.getCommands.requiredScopes);
         const res = await this.req.get({
             url: APIEndPoints.getCommands.endPoint,
             config: this._auth.generateReqConfig(),
@@ -50,7 +50,7 @@ export class CommandsManager extends Base {
      */
     async getCustomCommmandById(id: string): Promise<CustomCommandResponse | null> {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.getCommandById.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.getCommandById.requiredScopes);
         const res = await this.req.get({
             url: `/1/commands/${id}`,
             config: this._auth.generateReqConfig(),
@@ -74,7 +74,7 @@ export class CommandsManager extends Base {
         userLevel?: UserLevel
     ): Promise<CustomCommandResponse> {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.addCommand.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.addCommand.requiredScopes);
         coolDown = coolDown ?? 0;
         userLevel = userLevel ?? 'everyone';
         const res = await this.req.post({
@@ -101,7 +101,7 @@ export class CommandsManager extends Base {
      */
     async editCustomCommand(id: string, options: EditCustomCommandOptions): Promise<CustomCommandResponse | null> {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.editCommand.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.editCommand.requiredScopes);
         const res = await this.req.put({
             url: `/1/commands/${id}`,
             body: {
@@ -126,7 +126,7 @@ export class CommandsManager extends Base {
      */
     async deleteCustomCommand(id: string) {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.deleteCommand.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.deleteCommand.requiredScopes);
         const res = await this.req.delete({
             url: `/1/commands/${id}`,
             config: this._auth.generateReqConfig(),
@@ -142,7 +142,7 @@ export class CommandsManager extends Base {
      */
     async getDefaultCommands(): Promise<GetDefaultCommandsResponse> {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.getDefaultCommands.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.getDefaultCommands.requiredScopes);
         const res = await this.req.get({
             url: APIEndPoints.getDefaultCommands.endPoint,
             config: this._auth.generateReqConfig(),
@@ -160,7 +160,7 @@ export class CommandsManager extends Base {
      */
     async getDefaultCommandByName(name: string): Promise<DefaultCommandResponse | null> {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.getDefaultCommandByName.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.getDefaultCommandByName.requiredScopes);
         const res = await this.req.get({
             url: `/1/commands/default/${name}`,
             config: this._auth.generateReqConfig(),
@@ -180,7 +180,7 @@ export class CommandsManager extends Base {
      */
     async editDefaultCommand(name: string, options: EditDefaultCommandPotions): Promise<DefaultCommandResponse | null> {
         await this._auth.refresh();
-        this.isScopesEnough(APIEndPoints.editDefaultCommand.requiredScopes);
+        checkForEnoughScopes(this._auth, APIEndPoints.editDefaultCommand.requiredScopes);
         const res = await this.req.put({
             url: `/1/commands/default/${name}`,
             body: {
@@ -193,12 +193,6 @@ export class CommandsManager extends Base {
         if (res.status === 200) return res.data;
         if (res.status === 404) return null;
         throw new APIError(getErrorMessageFromAPIRes(res));
-    }
-
-    isScopesEnough(requiredScopes: Scopes[] | null) {
-        if (!isIncludeRequiedScopes(this._auth, requiredScopes)) {
-            throw new APIError('Missing Scopes. required Scopes: ' + requiredScopes?.toString());
-        } else return;
     }
 }
 
