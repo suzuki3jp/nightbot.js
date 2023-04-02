@@ -1,5 +1,5 @@
 export { AuthManager, ClientInfo, TokenInfo } from './AuthManager';
-export { CommandsManager, EditCustomCommandOptions, EditDefaultCommandPotions } from './manager/index';
+export { CommandManager, EditCustomCommandOptions, EditDefaultCommandOptions } from './manager/index';
 export { Client } from './Client';
 export { Base } from './Base';
 
