@@ -1,6 +1,6 @@
 import { AuthManager } from '../AuthManager';
 import { Base } from '../Base';
-import { APIEndPoints, ChannelData, GetChannelResponse, Scopes } from '../api-types/index';
+import { APIEndPoints, ChannelData, GetChannelResponse } from '../api-types/index';
 import { getErrorMessageFromAPIRes, checkForEnoughScopes } from '../utils/index';
 import { APIError } from '../Error';
 

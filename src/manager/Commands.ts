@@ -6,7 +6,6 @@ import {
     GetCommandsResponse,
     CustomCommandData,
     CustomCommandResponse,
-    Scopes,
     UserLevel,
     DefaultCommandResponse,
     GetDefaultCommandsResponse,
