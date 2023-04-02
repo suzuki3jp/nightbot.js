@@ -1,6 +1,10 @@
 export const APIEndPoints: {
     getMe: EndPointData;
     refreshToken: EndPointData;
+    getChannelByMe: EndPointData;
+    joinChannel: EndPointData;
+    partChannel: EndPointData;
+    sendMessage: EndPointData;
     getCommands: EndPointData;
     getCommandById: EndPointData;
     addCommand: EndPointData;
@@ -19,6 +23,26 @@ export const APIEndPoints: {
         method: 'POST',
         endPoint: '/oauth2/token',
         requiredScopes: null,
+    },
+    getChannelByMe: {
+        method: 'GET',
+        endPoint: '/1/channel',
+        requiredScopes: ['channel'],
+    },
+    joinChannel: {
+        method: 'POST',
+        endPoint: '/1/channel/join',
+        requiredScopes: ['channel'],
+    },
+    partChannel: {
+        method: 'POST',
+        endPoint: '/1/channel/part',
+        requiredScopes: ['channel'],
+    },
+    sendMessage: {
+        method: 'POST',
+        endPoint: '/1/channel/send',
+        requiredScopes: ['channel_send'],
     },
     getCommands: {
         method: 'GET',
@@ -72,6 +96,8 @@ export interface ErrorResponse {
     status: number;
     message: string;
 }
+
+export { GetChannelResponse, ChannelData } from './channels';
 
 export {
     GetCommandsResponse,

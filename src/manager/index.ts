@@ -1,1 +1,2 @@
-export { CommandsManager, EditCustomCommandOptions, EditDefaultCommandPotions } from './Commands';
+export { ChannelManager } from './Channel';
+export { CommandManager, EditCustomCommandOptions, EditDefaultCommandPotions } from './Command';
