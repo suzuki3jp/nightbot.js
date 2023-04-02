@@ -1,9 +1,9 @@
 import { AuthManager } from './AuthManager';
 import { Base } from './Base';
-import { CommandsManager } from './manager/index';
-export { CommandsManager } from './manager/index';
+import { ChannelManager, CommandManager } from './manager/index';
 export declare class Client extends Base {
     _auth: AuthManager;
-    command: CommandsManager;
+    command: CommandManager;
+    channel: ChannelManager;
     constructor(auth: AuthManager);
 }
