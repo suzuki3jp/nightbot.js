@@ -16,11 +16,11 @@ import { APIError } from '../Error';
  * Class for managing commands.
  */
 export class CommandsManager extends Base {
-    _auth: AuthManager;
+    private auth: AuthManager;
 
     constructor(auth: AuthManager) {
         super();
-        this._auth = auth;
+        this.auth = auth;
     }
 
     /**
@@ -29,11 +29,11 @@ export class CommandsManager extends Base {
      *  {@link https://api-docs.nightbot.tv/#get-custom-commands API Docs}
      */
     async getCustomCommandsByMe(): Promise<CustomCommandData[]> {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.getCommands.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.getCommands.requiredScopes);
         const res = await this.req.get({
             url: APIEndPoints.getCommands.endPoint,
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status !== 200) throw new APIError(getErrorMessageFromAPIRes(res));
         const data: GetCommandsResponse = res.data;
@@ -48,11 +48,11 @@ export class CommandsManager extends Base {
      *  {@link https://api-docs.nightbot.tv/#get-custom-command-by-id API Docs}
      */
     async getCustomCommmandById(id: string): Promise<CustomCommandResponse | null> {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.getCommandById.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.getCommandById.requiredScopes);
         const res = await this.req.get({
             url: `/1/commands/${id}`,
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status === 404) return null;
         if (res.status === 200) return res.data;
@@ -72,8 +72,8 @@ export class CommandsManager extends Base {
         coolDown?: number,
         userLevel?: UserLevel
     ): Promise<CustomCommandResponse> {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.addCommand.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.addCommand.requiredScopes);
         coolDown = coolDown ?? 0;
         userLevel = userLevel ?? 'everyone';
         const res = await this.req.post({
@@ -84,7 +84,7 @@ export class CommandsManager extends Base {
                 coolDown: coolDown.toString(),
                 userLevel: userLevel,
             }),
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status === 200) return res.data;
         throw new APIError(getErrorMessageFromAPIRes(res));
@@ -99,8 +99,8 @@ export class CommandsManager extends Base {
      * {@link https://api-docs.nightbot.tv/#edit-custom-command-by-id API Docs}
      */
     async editCustomCommand(id: string, options: EditCustomCommandOptions): Promise<CustomCommandResponse | null> {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.editCommand.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.editCommand.requiredScopes);
         const res = await this.req.put({
             url: `/1/commands/${id}`,
             body: {
@@ -110,7 +110,7 @@ export class CommandsManager extends Base {
                 count: options.count,
                 userLevel: options.userLevel,
             },
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status === 200) return res.data;
         if (res.status === 404) return null;
@@ -124,11 +124,11 @@ export class CommandsManager extends Base {
      * {@link https://api-docs.nightbot.tv/#delete-custom-command-by-id API Docs}
      */
     async deleteCustomCommand(id: string) {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.deleteCommand.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.deleteCommand.requiredScopes);
         const res = await this.req.delete({
             url: `/1/commands/${id}`,
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status === 200) return;
         throw new APIError(getErrorMessageFromAPIRes(res));
@@ -140,11 +140,11 @@ export class CommandsManager extends Base {
      * {@link https://api-docs.nightbot.tv/#get-default-commands API Docs}
      */
     async getDefaultCommands(): Promise<GetDefaultCommandsResponse> {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.getDefaultCommands.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.getDefaultCommands.requiredScopes);
         const res = await this.req.get({
             url: APIEndPoints.getDefaultCommands.endPoint,
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status === 200) return res.data;
         throw new APIError(getErrorMessageFromAPIRes(res));
@@ -158,11 +158,11 @@ export class CommandsManager extends Base {
      * {@link https://api-docs.nightbot.tv/#get-default-command-by-name API Docs}
      */
     async getDefaultCommandByName(name: string): Promise<DefaultCommandResponse | null> {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.getDefaultCommandByName.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.getDefaultCommandByName.requiredScopes);
         const res = await this.req.get({
             url: `/1/commands/default/${name}`,
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status === 404) return null;
         if (res.status === 200) return res.data;
@@ -178,8 +178,8 @@ export class CommandsManager extends Base {
      * {@link https://api-docs.nightbot.tv/#edit-default-command-by-name API Docs}
      */
     async editDefaultCommand(name: string, options: EditDefaultCommandPotions): Promise<DefaultCommandResponse | null> {
-        await this._auth.refresh();
-        checkForEnoughScopes(this._auth, APIEndPoints.editDefaultCommand.requiredScopes);
+        await this.auth.refresh();
+        checkForEnoughScopes(this.auth, APIEndPoints.editDefaultCommand.requiredScopes);
         const res = await this.req.put({
             url: `/1/commands/default/${name}`,
             body: {
@@ -187,7 +187,7 @@ export class CommandsManager extends Base {
                 enabled: options.enabled,
                 userLevel: options.userLevel,
             },
-            config: this._auth.generateReqConfig(),
+            config: this.auth.generateReqConfig(),
         });
         if (res.status === 200) return res.data;
         if (res.status === 404) return null;
