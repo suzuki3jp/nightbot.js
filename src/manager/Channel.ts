@@ -4,7 +4,7 @@ import { APIEndPoints, ChannelData, GetChannelResponse } from '../api-types/inde
 import { getErrorMessageFromAPIRes, checkForEnoughScopes } from '../utils/index';
 import { APIError } from '../Error';
 
-export class ChannelsManager extends Base {
+export class ChannelManager extends Base {
     private auth: AuthManager;
 
     constructor(auth: AuthManager) {

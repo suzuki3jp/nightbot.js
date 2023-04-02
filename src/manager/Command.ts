@@ -15,7 +15,7 @@ import { APIError } from '../Error';
 /**
  * Class for managing commands.
  */
-export class CommandsManager extends Base {
+export class CommandManager extends Base {
     private auth: AuthManager;
 
     constructor(auth: AuthManager) {
