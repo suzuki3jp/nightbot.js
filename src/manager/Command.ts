@@ -177,7 +177,7 @@ export class CommandManager extends Base {
      *
      * {@link https://api-docs.nightbot.tv/#edit-default-command-by-name API Docs}
      */
-    async editDefaultCommand(name: string, options: EditDefaultCommandPotions): Promise<DefaultCommandResponse | null> {
+    async editDefaultCommand(name: string, options: EditDefaultCommandOptions): Promise<DefaultCommandResponse | null> {
         await this.auth.refresh();
         checkForEnoughScopes(this.auth, APIEndPoints.editDefaultCommand.requiredScopes);
         const res = await this.req.put({
@@ -222,7 +222,7 @@ export interface EditCustomCommandOptions {
     userLevel?: Exclude<UserLevel, 'admin'>;
 }
 
-export interface EditDefaultCommandPotions {
+export interface EditDefaultCommandOptions {
     /**
      * The minimum amount of seconds between command usage (prevents spam).
      */
